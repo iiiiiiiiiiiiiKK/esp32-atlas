@@ -57,13 +57,13 @@ ESP32 Atlas 不是又一个「awesome list」。它回答四个具体问题：
 | --- | --- |
 | ![paths](docs/screenshots/paths-desktop.png) | ![tutorials](docs/screenshots/tutorials-desktop.png) |
 
-| 移动端首页（390px） | 移动端菜单（含作者 𝕏 入口） |
+| 移动端首页（390px） | 移动端筛选抽屉 |
 | --- | --- |
-| ![mobile home](docs/screenshots/home-mobile.png) | ![mobile menu](docs/screenshots/menu-mobile.png) |
+| ![mobile home](docs/screenshots/home-mobile.png) | ![mobile filters](docs/screenshots/filters-mobile.png) |
 
-| 窄屏 320px（iPhone SE） | 移动端探索 |
+| 窄屏 320px（iPhone SE） | 移动端菜单（含作者 𝕏 入口） |
 | --- | --- |
-| ![mobile SE](docs/screenshots/home-mobile-se.png) | ![mobile explore](docs/screenshots/explore-mobile.png) |
+| ![mobile SE](docs/screenshots/home-mobile-se.png) | ![mobile menu](docs/screenshots/menu-mobile.png) |
 
 > 所有截图来自本地运行的生产构建（`opennextjs-cloudflare preview`，真实 workerd 运行时 + 本地 D1），不是设计稿。
 
@@ -196,13 +196,19 @@ npm run typecheck   # tsc --noEmit                     → 通过，0 error
 npm run lint        # eslint .                        → 通过，0 error 0 warning
 npm test            # vitest run                      → 5 files, 73 tests 全通过
 npm run build       # next build                      → 成功，19 条路由
-npm run e2e         # playwright test（desktop+mobile） → 67 passed, 1 skipped
+npm run e2e         # playwright test（desktop+mobile） → 70 passed, 4 skipped
 node scripts/responsive-audit.mjs  # 7 视口 × 13 页面 响应式审计 → 91 checks, 0 failure
 ```
 
 - **单元测试**覆盖：筛选/评分/排序纯函数、URL 参数往返、Zod 校验（含 SSRF 用例）、PBKDF2 哈希与常量时间比较、日期与数字本地化、内容完整性（跨表引用、双语文案、评分边界、芯片 slug 合法性）。
 - **E2E 覆盖**：目标入口跳转、筛选 URL 可分享、空结果清除、项目详情指标与来源链接、无快照时不显示增长、404、语言切换刷新后保留、收藏持久化与状态/备注往返、提交（非 GitHub URL / 不存在仓库 / 重复仓库）、匿名访问 admin API 返回 401、robots 屏蔽 /admin、移动端 8 个页面无横向溢出、封面无破图、主要按钮在视口内可点、页头作者 𝕏 链接在所有视口可见且新窗口打开。
 - **响应式专项审计**（`scripts/responsive-audit.mjs`）：在 iPhone SE(320) / SE2(375) / 12-13(390) / 15 Pro Max(430) / iPad mini(768) / 1024 / 1440 共 7 个视口 × 13 个页面 = 91 项检查，逐项验证横向溢出、被裁剪的内容、页头遮挡、触控目标尺寸与控制台错误，**全部通过**。
+- **移动端专项优化**（实测数据，非主观描述）：
+  - **正文字号下限**：手机端所有正文文字 ≥ 12px，小于 12px 的文字占比从 52%~77% 降到 **0%~6%**（剩余仅封面 SVG 装饰文字）
+  - **首屏可达性**：`/explore` 第一个结果距顶部从 346px（0.41 屏）到首个卡片可见，筛选面板从页面底部 4255px 处移入**底部抽屉**，随时一键打开
+  - **触控目标**：`≤1023px` 时按钮/chip/输入框统一 36–44px 高，排序条与筛选条改为横向滑动轨（不撑破页面）
+  - **纵向节奏**：首页 block 间距 56px→32px，仓库卡片封面 96px→64px，每屏可见 2.9 张卡片，整页从 6.1 屏压到 5.5 屏
+  - **页脚**：4 列改为 2 列网格，不再占掉整整两屏
 - **安全审查**：见 [`docs/SECURITY.md`](docs/SECURITY.md)（含未修复项与原因）。
 
 ### 设计系统抽查（真实计算值）

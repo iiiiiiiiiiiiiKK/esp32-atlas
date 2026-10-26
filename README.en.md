@@ -57,13 +57,13 @@ It puts **live GitHub metrics**, hand-written **project guides**, **chip referen
 | --- | --- |
 | ![paths](docs/screenshots/paths-desktop.png) | ![tutorials](docs/screenshots/tutorials-desktop.png) |
 
-| Mobile home (390px) | Mobile menu (with the author 𝕏 entry) |
+| Mobile home (390px) | Mobile filter drawer |
 | --- | --- |
-| ![mobile home](docs/screenshots/home-mobile.png) | ![mobile menu](docs/screenshots/menu-mobile.png) |
+| ![mobile home](docs/screenshots/home-mobile.png) | ![mobile filters](docs/screenshots/filters-mobile.png) |
 
-| Narrow 320px (iPhone SE) | Mobile explore |
+| Narrow 320px (iPhone SE) | Mobile menu (with the author 𝕏 entry) |
 | --- | --- |
-| ![mobile SE](docs/screenshots/home-mobile-se.png) | ![mobile explore](docs/screenshots/explore-mobile.png) |
+| ![mobile SE](docs/screenshots/home-mobile-se.png) | ![mobile menu](docs/screenshots/menu-mobile.png) |
 
 > All screenshots come from a running production build (`opennextjs-cloudflare preview` — real workerd runtime with a real D1 database), not from a design file.
 
@@ -193,13 +193,19 @@ npm run typecheck   # tsc --noEmit                     → clean, 0 errors
 npm run lint        # eslint .                        → clean, 0 errors 0 warnings
 npm test            # vitest run                      → 5 files, 73 tests passing
 npm run build       # next build                      → success, 19 routes
-npm run e2e         # playwright (desktop + mobile)   → 67 passed, 1 skipped
+npm run e2e         # playwright (desktop + mobile)   → 70 passed, 4 skipped
 node scripts/responsive-audit.mjs  # 7 viewports x 13 pages → 91 checks, 0 failures
 ```
 
 - **Unit tests** cover filter/score/sort purity, URL parameter round-trips, Zod validation (including SSRF cases), PBKDF2 hashing and constant-time comparison, date/number localisation, and content integrity (cross-table references, bilingual copy, score bounds, valid chip slugs).
 - **E2E** covers goal shortcuts, shareable filter URLs, empty-state clearing, project metrics and provenance links, "no growth without snapshots", 404, language persistence across reload, collections persistence with status/note round-trip, submissions (non-GitHub URL / missing repo / duplicate), anonymous admin API returning 401, robots excluding `/admin`, eight mobile pages without horizontal overflow, no broken cover art, tappable primary actions, and the author 𝕏 link being visible in the header on every viewport.
 - **Responsive audit** (`scripts/responsive-audit.mjs`): 7 viewports (iPhone SE 320 / SE2 375 / 12-13 390 / 15 Pro Max 430 / iPad mini 768 / 1024 / 1440) × 13 pages = 91 checks covering horizontal overflow, clipped content, header overlap, touch-target size and console errors — **all passing**.
+- **Mobile-specific work** (measured, not described):
+  - **Type floor**: every body string on a phone is ≥12px; the share of sub-12px text dropped from 52–77% to **0–6%** (the remainder is decorative SVG cover-art text)
+  - **Reachability**: on `/explore` the first result is visible 0.41 screens down, and the facet panel moved from 4 255px below the fold into a **bottom sheet** that is always one tap away
+  - **Touch targets**: on `≤1023px` buttons, chips and inputs are 36–44px tall; the sort and filter rows became horizontally scrolling rails that never widen the page
+  - **Vertical rhythm**: home block gaps 56px→32px, card covers 96px→64px, 2.9 cards per screen, full page 6.1→5.5 screens
+  - **Footer**: four stacked columns became a two-up grid instead of consuming two screens
 - **Security review**: see [`docs/SECURITY.md`](docs/SECURITY.md) (including unfixed items and why).
 
 ### Design system spot checks (measured, not claimed)

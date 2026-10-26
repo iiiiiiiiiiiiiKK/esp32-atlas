@@ -32,9 +32,10 @@ export function SiteFooter({ lang }: { lang: Lang }) {
 
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--panel)]">
-      <div className="mx-auto w-full max-w-[1240px] px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
+      <div className="mx-auto w-full max-w-[1240px] px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+        {/* Phones get a 2-up grid: 4 stacked columns pushed the footer to ~2 screens. */}
+        <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:gap-8 lg:grid-cols-4">
+          <div className="col-span-2 lg:col-span-1">
             <div className="text-sm font-semibold">
               ESP32 <span className="brand-text">Atlas</span>
             </div>
@@ -43,10 +44,13 @@ export function SiteFooter({ lang }: { lang: Lang }) {
           {cols.map((col) => (
             <nav key={col.title} aria-label={col.title}>
               <div className="mono text-[0.68rem] uppercase tracking-[0.16em] text-[var(--text-2)]">{col.title}</div>
-              <ul className="mt-3 space-y-2">
+              <ul className="mt-2 space-y-1.5 sm:mt-3 sm:space-y-2">
                 {col.links.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} className="text-[0.82rem] text-[var(--text-2)] hover:text-[var(--text)]">
+                    <Link
+                      href={link.href}
+                      className="inline-block py-1 text-[0.82rem] text-[var(--text-2)] hover:text-[var(--text)]"
+                    >
                       {link.label}
                     </Link>
                   </li>

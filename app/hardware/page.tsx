@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ExternalLink, AlertTriangle, ShieldCheck } from "lucide-react";
+import { ExternalLink, AlertTriangle, ShieldCheck, MoveHorizontal } from "lucide-react";
 import { getLang } from "@/lib/prefs";
 import { tr } from "@/lib/i18n";
 import { listChips, listRepos } from "@/lib/repos";
@@ -32,8 +32,8 @@ export default async function HardwarePage() {
 
   return (
     <div className="space-y-4">
-      <header className="surface p-5">
-        <h1 className="text-xl font-semibold tracking-tight">{tr("hardwareTitle", lang)}</h1>
+      <header className="surface p-4 sm:p-5">
+        <h1 className="text-lg font-semibold tracking-tight sm:text-xl">{tr("hardwareTitle", lang)}</h1>
         <p className="muted mt-1.5 max-w-[80ch] text-[0.85rem] leading-relaxed">{tr("hardwareIntro", lang)}</p>
         <p className="mono mt-2 text-[0.66rem] text-[var(--text-2)]">
           {lang === "zh"
@@ -42,8 +42,12 @@ export default async function HardwarePage() {
         </p>
       </header>
 
-      {/* Comparison table: horizontal scroll only inside the table on mobile */}
+      {/* Comparison table: horizontal scroll stays inside this box on phones. */}
       <section className="surface overflow-hidden">
+        <p className="flex items-center gap-1.5 border-b border-[var(--border)] px-3 py-2 text-[0.75rem] text-[var(--text-2)] lg:hidden">
+          <MoveHorizontal size={13} aria-hidden />
+          {lang === "zh" ? "左右滑动查看全部芯片列" : "Swipe sideways to see every chip column"}
+        </p>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[860px] border-collapse text-left">
             <caption className="sr-only">{tr("hardwareTitle", lang)}</caption>

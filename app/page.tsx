@@ -51,7 +51,7 @@ export default async function HomePage() {
   ];
 
   return (
-    <div className="space-y-14">
+    <div className="space-y-8 sm:space-y-14">
       {/* ---------- Hero ---------- */}
       <section className="relative overflow-hidden rounded-md border border-[var(--border)] bg-[var(--panel)]">
         <div
@@ -62,22 +62,25 @@ export default async function HomePage() {
               "radial-gradient(560px 240px at 12% -10%, color-mix(in srgb, var(--brand) 20%, transparent), transparent 70%), radial-gradient(480px 220px at 88% 0%, color-mix(in srgb, var(--cyan) 16%, transparent), transparent 72%)",
           }}
         />
-        <div className="relative grid gap-8 p-6 sm:p-9 lg:grid-cols-[1.25fr_0.75fr] lg:p-10">
+        <div className="relative grid gap-6 p-4 sm:gap-8 sm:p-9 lg:grid-cols-[1.25fr_0.75fr] lg:p-10">
           <div className="min-w-0">
             <span className="pill pill-brand mono uppercase tracking-[0.14em]">
               <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--brand)]" />
               {tr("heroEyebrow", lang)}
             </span>
-            <h1 className="mt-4 max-w-[19ch] text-[1.9rem] font-semibold leading-[1.15] tracking-tight sm:text-[2.5rem]">
+            <h1 className="mt-3 max-w-[19ch] text-[1.65rem] font-semibold leading-[1.18] tracking-tight sm:mt-4 sm:text-[2.5rem]">
               {tr("heroTitle", lang)}
             </h1>
-            <p className="muted mt-3 max-w-[62ch] text-[0.9rem] leading-relaxed">{tr("heroBody", lang)}</p>
-            <div className="mt-6 max-w-xl">
+            <p className="muted mt-2.5 max-w-[62ch] text-[0.88rem] leading-relaxed sm:mt-3 sm:text-[0.9rem]">
+              {tr("heroBody", lang)}
+            </p>
+            <div className="mt-4 max-w-xl sm:mt-6">
               <HeroSearch lang={lang} />
             </div>
-            <dl className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+            {/* 2-up on phones so four figures never become four stacked rows. */}
+            <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 sm:mt-6 sm:flex sm:flex-wrap sm:gap-x-6">
               {stats.map((s) => (
-                <div key={s.label} className="min-w-[6.5rem]">
+                <div key={s.label} className="min-w-0 sm:min-w-[6.5rem]">
                   <dt className="mono flex items-center gap-1 text-[0.64rem] uppercase tracking-[0.12em] text-[var(--text-2)]">
                     {s.icon}
                     {s.label}
@@ -89,12 +92,12 @@ export default async function HomePage() {
           </div>
 
           {/* Goal-based entry points — the core differentiator */}
-          <div className="surface-2 min-w-0 self-start p-4">
-            <div className="flex items-baseline justify-between">
-              <h2 className="text-[0.86rem] font-semibold">{tr("goalTitle", lang)}</h2>
-              <span className="mono text-[0.62rem] text-[var(--text-2)]">{tr("goalSubtitle", lang)}</span>
+          <div className="surface-2 min-w-0 self-start p-3 sm:p-4">
+            <div className="flex items-baseline justify-between gap-2">
+              <h2 className="text-[0.9rem] font-semibold">{tr("goalTitle", lang)}</h2>
+              <span className="mono hidden text-[0.62rem] text-[var(--text-2)] sm:inline">{tr("goalSubtitle", lang)}</span>
             </div>
-            <ul className="mt-3 grid gap-1.5">
+            <ul className="mt-2 grid grid-cols-2 gap-1 sm:mt-3 sm:grid-cols-1 sm:gap-1.5">
               {Object.entries(CATEGORY_LABELS)
                 .filter(([slug]) => ["ai-voice", "smart-home", "display", "robotics", "led", "wireless"].includes(slug))
                 .map(([slug, label]) => {
@@ -103,11 +106,11 @@ export default async function HomePage() {
                     <li key={slug}>
                       <Link
                         href={`/explore?category=${slug}`}
-                        className="flex items-center justify-between rounded border border-transparent px-2 py-1.5 text-[0.82rem] transition-colors hover:border-[var(--border)] hover:bg-[var(--panel)]"
+                        className="flex items-center justify-between gap-1.5 rounded border border-[var(--border)] px-2 py-2 text-[0.85rem] transition-colors hover:border-[var(--brand-dim)] hover:bg-[var(--panel)] sm:border-transparent sm:py-1.5 sm:text-[0.82rem]"
                         data-testid={`goal-${slug}`}
                       >
-                        <span>{label[lang]}</span>
-                        <span className="mono flex items-center gap-1 text-[0.7rem] text-[var(--text-2)]">
+                        <span className="truncate">{label[lang]}</span>
+                        <span className="mono flex shrink-0 items-center gap-1 text-[0.7rem] text-[var(--text-2)]">
                           {count}
                           <ArrowRight size={11} aria-hidden />
                         </span>
@@ -163,9 +166,9 @@ export default async function HomePage() {
 
       {/* ---------- Radar teaser ---------- */}
       <section aria-labelledby="radar-h" className="grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="surface min-w-0 p-5">
+        <div className="surface min-w-0 p-4 sm:p-5">
           <SectionHead id="radar-h" title={tr("radarTeaser", lang)} hint={tr("radarIntro", lang)} href="/radar" lang={lang} inline />
-          <ul className="mt-4 divide-y divide-[var(--border)]">
+          <ul className="mt-2 divide-y divide-[var(--border)] sm:mt-4">
             {activeTop.slice(0, 4).map((repo) => (
               <li key={repo.id} className="flex items-center justify-between gap-3 py-2">
                 <Link href={`/projects/${repo.slug}`} className="min-w-0 truncate text-[0.82rem] hover:text-[var(--brand)]">
@@ -195,7 +198,7 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <div className="surface min-w-0 p-5">
+        <div className="surface min-w-0 p-4 sm:p-5">
           <SectionHead
             id="paths-h"
             title={tr("pathsTeaser", lang)}
@@ -296,14 +299,17 @@ function SectionHead({
   inline?: boolean;
 }) {
   return (
-    <div className={`flex items-end justify-between gap-4 ${inline ? "" : "mb-3"}`}>
-      <div>
+    <div className={`flex items-end justify-between gap-3 ${inline ? "" : "mb-2 sm:mb-3"}`}>
+      <div className="min-w-0">
         <h2 id={id} className="text-[1.02rem] font-semibold tracking-tight">
           {title}
         </h2>
         {hint ? <p className="muted mt-0.5 max-w-[70ch] text-[0.75rem] leading-relaxed">{hint}</p> : null}
       </div>
-      <Link href={href} className="mono shrink-0 text-[0.72rem] text-[var(--cyan)] hover:underline">
+      <Link
+        href={href}
+        className="mono inline-flex shrink-0 items-center gap-0.5 whitespace-nowrap py-1 text-[0.72rem] text-[var(--cyan)] hover:underline"
+      >
         {tr("viewAll", lang)} →
       </Link>
     </div>

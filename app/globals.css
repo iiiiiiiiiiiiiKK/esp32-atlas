@@ -282,6 +282,72 @@ a {
   }
 }
 
+/*
+  Mobile type floor.
+  The desktop UI is intentionally dense (0.6–0.72rem micro type), which is fine
+  at arm's length on a 27" monitor but unreadable in a hand at 390px. Tailwind
+  arbitrary sizes are rem-based and therefore fixed, so we lift the smallest
+  brackets here in one place instead of sprinkling `sm:` overrides through 200
+  class strings. Anything already >= 0.75rem is left untouched.
+*/
+@media (max-width: 767px) {
+  .text-\[0\.6rem\],
+  .text-\[0\.62rem\] {
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+  .text-\[0\.64rem\],
+  .text-\[0\.66rem\] {
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+  .text-\[0\.68rem\],
+  .text-\[0\.7rem\] {
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+  .text-\[0\.72rem\],
+  .text-\[0\.74rem\] {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  /* Tracking tuned for tiny uppercase labels looks loose once the size grows. */
+  .mono.uppercase {
+    letter-spacing: 0.08em;
+  }
+  /* Class-based micro type (pills, small buttons) is not a Tailwind arbitrary
+     value, so it gets its own mobile floor. */
+  .pill {
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+  .btn-sm {
+    font-size: 0.82rem;
+  }
+  .btn {
+    font-size: 0.85rem;
+  }
+  /* Long single-line meta rows may use two lines on a phone instead of clipping. */
+  .truncate-2 {
+    -webkit-line-clamp: 3;
+  }
+}
+
+/* Horizontal chip rails (sort bar, facet strip): scrollable, hide the bar. */
+.rail {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+.rail > * {
+  flex: 0 0 auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -58,17 +58,17 @@ export function RepoCard({
   return (
     <article className="surface card-hover group relative flex flex-col overflow-hidden">
       <Link href={`/projects/${repo.slug}`} className="absolute inset-0 z-0" aria-label={repo.fullName} />
-      <div className={`relative z-0 overflow-hidden border-b border-[var(--border)] ${compact ? "h-14" : "h-24"}`}>
+      <div className={`relative z-0 overflow-hidden border-b border-[var(--border)] ${compact ? "h-14" : "h-16 sm:h-24"}`}>
         <CoverArt repo={repo} className="h-full w-full" showLabel={!compact} />
       </div>
-      <div className={`relative z-10 flex flex-1 flex-col gap-2 ${compact ? "p-3" : "p-4"}`}>
+      <div className={`relative z-10 flex flex-1 flex-col gap-1.5 ${compact ? "p-3" : "p-3 sm:gap-2 sm:p-4"}`}>
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <h3 className="truncate text-[0.9rem] font-semibold tracking-tight">
+            <h3 className="truncate text-[0.95rem] font-semibold tracking-tight sm:text-[0.9rem]">
               <span className="text-[var(--text-2)]">{repo.owner}/</span>
               {repo.name}
             </h3>
-            <div className="mono mt-0.5 flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[0.68rem] text-[var(--text-2)]">
+            <div className="mono mt-0.5 flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[0.72rem] text-[var(--text-2)] sm:text-[0.68rem]">
               <span className="inline-flex items-center gap-1">
                 <Star size={10} aria-hidden /> {formatNumber(repo.stars, lang)}
               </span>
@@ -96,7 +96,7 @@ export function RepoCard({
           </div>
         </div>
 
-        <p className={`muted text-[0.79rem] leading-relaxed ${compact ? "truncate-2" : "truncate-3"}`}>{summary}</p>
+        <p className={`muted text-[0.82rem] leading-relaxed sm:text-[0.79rem] ${compact ? "truncate-2" : "truncate-3"}`}>{summary}</p>
 
         <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-1">
           <DifficultyPill level={repo.difficulty} lang={lang} />

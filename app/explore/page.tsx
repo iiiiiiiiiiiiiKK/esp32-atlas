@@ -6,9 +6,12 @@ import { explore } from "@/lib/queries";
 import { RepoCard } from "@/components/repo-card";
 import { EmptyState } from "@/components/empty-state";
 import { ExploreFiltersPanel } from "@/components/explore-filters";
+import { MobileFilterSheet } from "@/components/mobile-filter-sheet";
+import { FilterSearch } from "@/components/filter-search";
 import { activeFilterCount, parseFilters, filtersToQuery } from "@/lib/search";
 import { lastSyncedAt, listRepos } from "@/lib/repos";
 import { formatDate } from "@/lib/format";
+import { X } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -59,53 +62,71 @@ export default async function ExplorePage({
     return qs ? `/explore?${qs}` : "/explore";
   }
 
+  const panel = (
+    <ExploreFiltersPanel lang={lang} base={baseParams} options={{ languages, licenses }} activeCount={count} />
+  );
+
   return (
-    <div className="space-y-4">
-      <header className="surface flex flex-col gap-3 p-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">{tr("navExplore", lang)}</h1>
-          <p className="muted mt-1 max-w-[70ch] text-[0.82rem] leading-relaxed">
-            {lang === "zh"
-              ? "按目标、芯片、框架与活跃度筛选。URL 会保存全部筛选条件，可以直接分享给朋友。"
-              : "Filter by goal, chip, framework and activity. The URL holds the whole filter state, so you can share it as-is."}
+    <div className="space-y-3">
+      {/* ---------- Page head ---------- */}
+      <header className="surface p-4">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+          <h1 className="text-lg font-semibold tracking-tight sm:text-xl">{tr("navExplore", lang)}</h1>
+          <p className="mono text-[0.68rem] text-[var(--text-2)]">
+            {result.total} {tr("resultsCount", lang)} · {tr("dataUpdated", lang)} {formatDate(syncedAt, lang)}
           </p>
         </div>
-        <p className="mono text-[0.68rem] text-[var(--text-2)]">
-          {result.total} {tr("resultsCount", lang)} · {tr("dataUpdated", lang)} {formatDate(syncedAt, lang)}
+        <p className="muted mt-1 max-w-[70ch] text-[0.82rem] leading-relaxed">
+          {lang === "zh"
+            ? "按目标、芯片、框架与活跃度筛选。URL 会保存全部筛选条件，可以直接分享给朋友。"
+            : "Filter by goal, chip, framework and activity. The URL holds the whole filter state, so you can share it as-is."}
         </p>
+        <div className="mt-3">
+          <FilterSearch lang={lang} base={baseParams} initialQuery={filters.q} />
+        </div>
       </header>
 
-      <div className="grid gap-4 lg:grid-cols-[248px_1fr]">
-        <div className="order-2 min-w-0 lg:order-1">
-          <ExploreFiltersPanel
-            lang={lang}
-            base={baseParams}
-            options={{ languages, licenses }}
-            activeCount={count}
-          />
-        </div>
+      <div className="grid min-w-0 gap-4 lg:grid-cols-[248px_1fr]">
+        {/* Facet panel: desktop column. On a phone it lives in the bottom sheet. */}
+        <div className="hidden min-w-0 lg:block">{panel}</div>
 
-        <div className="order-1 min-w-0 space-y-3 lg:order-2">
-          <div className="surface flex flex-wrap items-center gap-1.5 p-2">
-            <span className="mono px-1 text-[0.66rem] uppercase tracking-[0.12em] text-[var(--text-2)]">
-              {tr("sortBy", lang)}
-            </span>
-            {SORTS.map((s) => (
-              <Link
-                key={s.key}
-                href={sortHref(s.key)}
-                aria-current={filters.sort === s.key ? "true" : undefined}
-                className={`btn btn-sm ${filters.sort === s.key ? "btn-primary" : "btn-ghost"}`}
-                data-testid={`sort-${s.key}`}
-              >
-                {lang === "zh" ? s.labelZh : s.labelEn}
-              </Link>
-            ))}
-            {count > 0 ? (
-              <Link href="/explore" className="btn btn-sm btn-ghost ml-auto">
-                {tr("clearFilters", lang)} ({count})
-              </Link>
-            ) : null}
+        <div className="min-w-0 space-y-3">
+          {/*
+            Sticky toolbar. On mobile this is the only chrome between the user and
+            the results: result count + filter sheet trigger + horizontally
+            scrolling sort rail.
+          */}
+          <div className="sticky top-14 z-30 -mx-4 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_94%,transparent)] px-4 py-2 backdrop-blur sm:-mx-6 sm:px-6 lg:static lg:mx-0 lg:rounded lg:border lg:px-2 lg:py-2">
+            <div className="flex items-center gap-1.5">
+              <MobileFilterSheet lang={lang} activeCount={count} resultCount={result.total}>
+                {panel}
+              </MobileFilterSheet>
+
+              <div className="rail flex-1 items-center gap-1.5 lg:flex-wrap">
+                <span className="mono hidden shrink-0 px-1 text-[0.66rem] uppercase tracking-[0.12em] text-[var(--text-2)] lg:inline">
+                  {tr("sortBy", lang)}
+                </span>
+                {SORTS.map((s) => (
+                  <Link
+                    key={s.key}
+                    href={sortHref(s.key)}
+                    aria-current={filters.sort === s.key ? "true" : undefined}
+                    className={`btn btn-sm ${filters.sort === s.key ? "btn-primary" : "btn-ghost"}`}
+                    data-testid={`sort-${s.key}`}
+                    scroll={false}
+                  >
+                    {lang === "zh" ? s.labelZh : s.labelEn}
+                  </Link>
+                ))}
+              </div>
+
+              {count > 0 ? (
+                <Link href="/explore" className="btn btn-sm btn-ghost shrink-0 px-2" aria-label={tr("clearFilters", lang)}>
+                  <X size={13} aria-hidden />
+                  <span className="mono text-[0.72rem]">{count}</span>
+                </Link>
+              ) : null}
+            </div>
           </div>
 
           {result.items.length === 0 ? (
@@ -125,7 +146,7 @@ export default async function ExplorePage({
           )}
 
           {result.totalPages > 1 ? (
-            <nav className="flex items-center justify-center gap-1 pt-2" aria-label="pagination">
+            <nav className="rail justify-center gap-1 pt-2" aria-label="pagination">
               {Array.from({ length: result.totalPages }, (_, i) => i + 1).map((p) => (
                 <Link
                   key={p}

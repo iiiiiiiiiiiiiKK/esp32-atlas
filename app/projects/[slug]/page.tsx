@@ -89,11 +89,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
       {/* ---------- Header ---------- */}
       <header className="surface overflow-hidden">
-        <div className="relative h-32 border-b border-[var(--border)] sm:h-40">
+        <div className="relative h-20 border-b border-[var(--border)] sm:h-40">
           <CoverArt repo={repo} className="h-full w-full" showLabel={false} />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--panel)] to-transparent" />
         </div>
-        <div className="p-5">
+        <div className="p-4 sm:p-5">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
               <div className="mono flex flex-wrap items-center gap-1.5 text-[0.7rem] text-[var(--text-2)]">
@@ -107,14 +107,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   </span>
                 ) : null}
               </div>
-              <h1 className="mt-1 text-[1.6rem] font-semibold leading-tight tracking-tight sm:text-[1.9rem]">
+              <h1 className="mt-1 text-[1.45rem] font-semibold leading-tight tracking-tight sm:text-[1.9rem]">
                 {repoName}
               </h1>
               <p className="muted mt-2 max-w-[75ch] text-[0.86rem] leading-relaxed">
                 {repo.summary?.[lang] ?? repo.description ?? "—"}
               </p>
             </div>
-            <div className="flex shrink-0 flex-wrap items-center gap-1.5">
+            {/* Phones: the two actions share one full-width row so they are easy to hit. */}
+            <div className="flex w-full shrink-0 flex-wrap items-center gap-1.5 sm:w-auto">
               <SaveButton
                 id={`repo:${repo.slug}`}
                 kind="repo"
@@ -123,7 +124,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 subtitle={(repo.summary?.[lang] ?? "").slice(0, 120)}
                 lang={lang}
               />
-              <a href={repo.htmlUrl} target="_blank" rel="noopener noreferrer nofollow" className="btn btn-primary">
+              <a
+                href={repo.htmlUrl}
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="btn btn-primary flex-1 sm:flex-none"
+              >
                 <ExternalLink size={13} aria-hidden /> {tr("viewRepo", lang)}
               </a>
             </div>

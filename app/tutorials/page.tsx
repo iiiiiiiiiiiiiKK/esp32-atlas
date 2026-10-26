@@ -61,11 +61,11 @@ export default async function TutorialsPage({
 
   return (
     <div className="space-y-4">
-      <header className="surface p-5">
-        <h1 className="text-xl font-semibold tracking-tight">{tr("tutorialsTitle", lang)}</h1>
+      <header className="surface p-4 sm:p-5">
+        <h1 className="text-lg font-semibold tracking-tight sm:text-xl">{tr("tutorialsTitle", lang)}</h1>
         <p className="muted mt-1.5 max-w-[78ch] text-[0.85rem] leading-relaxed">{tr("tutorialsIntro", lang)}</p>
-        <div className="mt-3 flex flex-wrap items-center gap-1.5">
-          <span className="mono text-[0.66rem] uppercase tracking-[0.12em] text-[var(--text-2)]">
+        <div className="rail mt-3 items-center gap-1.5 py-0.5 sm:flex-wrap">
+          <span className="mono shrink-0 pr-0.5 text-[0.66rem] uppercase tracking-[0.12em] text-[var(--text-2)]">
             <Languages size={10} className="inline" aria-hidden /> {tr("languageLabel", lang)}
           </span>
           {[
@@ -76,7 +76,7 @@ export default async function TutorialsPage({
               {o.label}
             </Link>
           ))}
-          <span className="mono ml-3 text-[0.66rem] uppercase tracking-[0.12em] text-[var(--text-2)]">
+          <span className="mono ml-2 shrink-0 pr-0.5 text-[0.66rem] uppercase tracking-[0.12em] text-[var(--text-2)]">
             {tr("difficulty", lang)}
           </span>
           {[
@@ -89,7 +89,7 @@ export default async function TutorialsPage({
             </Link>
           ))}
           {langFilter || diffFilter || q ? (
-            <Link href="/tutorials" className="mono ml-auto text-[0.7rem] text-[var(--cyan)] hover:underline">
+            <Link href="/tutorials" className="mono ml-auto shrink-0 whitespace-nowrap py-1 text-[0.7rem] text-[var(--cyan)] hover:underline">
               {tr("clearFilters", lang)}
             </Link>
           ) : null}
