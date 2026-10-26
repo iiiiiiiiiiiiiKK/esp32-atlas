@@ -1,0 +1,278 @@
+@import "tailwindcss";
+
+/*
+  ESP32 Atlas design tokens.
+  Single source of truth for colour — components never hardcode hex values.
+  Dark is the default; `html.light` flips the palette.
+*/
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Noto Sans SC",
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", "Cascadia Mono",
+    Consolas, monospace;
+}
+
+:root {
+  --bg: #0a1110;
+  --panel: #101b19;
+  --panel-2: #152421;
+  --border: #293d38;
+  --border-strong: #3a544d;
+  --brand: #b8f36b;
+  --brand-dim: #8fc94b;
+  --cyan: #63d8c5;
+  --text: #eaf3ef;
+  --text-2: #9bafa8;
+  --warn: #f4b860;
+  --danger: #ff7777;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 12px 32px -18px rgba(0, 0, 0, 0.9);
+  --grid: rgba(99, 216, 197, 0.055);
+  color-scheme: dark;
+}
+
+html.light {
+  --bg: #f5f7f4;
+  --panel: #ffffff;
+  --panel-2: #eef2ec;
+  --border: #d3ded7;
+  --border-strong: #b3c4bb;
+  --brand: #3f7d1e;
+  --brand-dim: #35691a;
+  --cyan: #12796c;
+  --text: #0e1a17;
+  --text-2: #4d625b;
+  --warn: #9a6104;
+  --danger: #b02a2a;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.02), 0 10px 24px -18px rgba(16, 27, 25, 0.5);
+  --grid: rgba(18, 121, 108, 0.06);
+  color-scheme: light;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  /* PCB-ish trace grid, very low contrast so text stays readable. */
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 64px 64px, 64px 64px;
+  background-position: center top;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--brand);
+  color: #0a1110;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@layer utilities {
+  .surface {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .surface-2 {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .muted {
+    color: var(--text-2);
+  }
+  .hairline {
+    background: var(--border);
+  }
+  .brand-text {
+    color: var(--brand);
+  }
+  .cyan-text {
+    color: var(--cyan);
+  }
+  .mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  .truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  height: 2.25rem;
+  padding: 0 0.85rem;
+  border-radius: 5px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text);
+  font-size: 0.83rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+  white-space: nowrap;
+}
+.btn:hover {
+  background: var(--panel-2);
+  border-color: var(--brand-dim);
+}
+.btn-primary {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #08120c;
+  font-weight: 600;
+}
+.btn-primary:hover {
+  background: var(--brand-dim);
+  border-color: var(--brand-dim);
+  color: #08120c;
+}
+.btn-ghost {
+  border-color: transparent;
+  color: var(--text-2);
+}
+.btn-ghost:hover {
+  color: var(--text);
+  border-color: var(--border);
+}
+.btn-sm {
+  height: 1.85rem;
+  font-size: 0.76rem;
+  padding: 0 0.6rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  height: 1.5rem;
+  padding: 0 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--panel-2) 70%, transparent);
+  font-size: 0.71rem;
+  letter-spacing: 0.02em;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.pill-brand {
+  border-color: color-mix(in srgb, var(--brand) 45%, transparent);
+  color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+}
+.pill-cyan {
+  border-color: color-mix(in srgb, var(--cyan) 45%, transparent);
+  color: var(--cyan);
+  background: color-mix(in srgb, var(--cyan) 10%, transparent);
+}
+.pill-warn {
+  border-color: color-mix(in srgb, var(--warn) 50%, transparent);
+  color: var(--warn);
+  background: color-mix(in srgb, var(--warn) 10%, transparent);
+}
+.pill-danger {
+  border-color: color-mix(in srgb, var(--danger) 50%, transparent);
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+}
+
+.field {
+  width: 100%;
+  height: 2.5rem;
+  border-radius: 5px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel);
+  color: var(--text);
+  padding: 0 0.75rem;
+  font-size: 0.875rem;
+}
+.field::placeholder {
+  color: color-mix(in srgb, var(--text-2) 85%, transparent);
+}
+.field:focus {
+  border-color: var(--cyan);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cyan) 18%, transparent);
+}
+
+.card-hover {
+  transition: border-color 140ms ease, transform 140ms ease, background-color 140ms ease;
+}
+.card-hover:hover {
+  border-color: var(--brand-dim);
+  background: var(--panel-2);
+}
+
+.link {
+  color: var(--cyan);
+  text-underline-offset: 3px;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .card-hover:hover {
+    transform: none;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

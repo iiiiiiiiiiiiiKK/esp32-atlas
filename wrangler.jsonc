@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "esp32-atlas",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-25",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "esp32-atlas-db",
+      "database_id": "cc1097b6-016c-4d62-a365-7f8ef35882b7",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "workers_dev": true,
+  "preview_urls": false,
+  "vars": {
+    "NEXTJS_ENV": "production"
+  }
+}
