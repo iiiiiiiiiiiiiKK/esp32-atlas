@@ -6,6 +6,7 @@ import { Menu, X, CircuitBoard } from "lucide-react";
 import type { Lang } from "@/lib/types";
 import { tr, type DictKey } from "@/lib/i18n";
 import { PrefControls } from "./pref-controls";
+import { AUTHOR_X_URL, AUTHOR_X_HANDLE } from "@/lib/constants";
 
 const NAV: Array<{ href: string; key: DictKey }> = [
   { href: "/explore", key: "navExplore" },
@@ -20,18 +21,18 @@ export function SiteHeader({ lang, theme }: { lang: Lang; theme: "dark" | "light
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] backdrop-blur">
-      <div className="mx-auto flex h-14 w-full max-w-[1240px] items-center gap-2 px-4 sm:gap-3 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 shrink-0" aria-label="ESP32 Atlas">
-          <span className="grid h-7 w-7 place-items-center rounded-[4px] border border-[var(--brand-dim)] text-[var(--brand)]">
+    <header className="sticky top-0 z-40 w-full border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] backdrop-blur">
+      <div className="mx-auto flex h-14 w-full max-w-[1240px] items-center gap-1.5 px-3 sm:gap-3 sm:px-6 lg:px-8">
+        <Link href="/" className="flex min-w-0 shrink items-center gap-2" aria-label="ESP32 Atlas">
+          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[4px] border border-[var(--brand-dim)] text-[var(--brand)]">
             <CircuitBoard size={16} aria-hidden />
           </span>
-          <span className="text-[0.95rem] font-semibold tracking-tight">
+          <span className="truncate text-[0.95rem] font-semibold tracking-tight">
             ESP32 <span className="brand-text">Atlas</span>
           </span>
         </Link>
 
-        <nav aria-label="primary" className="ml-2 hidden items-center gap-0.5 lg:flex">
+        <nav aria-label="primary" className="ml-2 hidden shrink-0 items-center gap-0.5 lg:flex">
           {NAV.map((item) => (
             <Link
               key={item.href}
@@ -43,7 +44,26 @@ export function SiteHeader({ lang, theme }: { lang: Lang; theme: "dark" | "light
           ))}
         </nav>
 
-        <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-1.5">
+        {/*
+          Right-hand cluster. Widths are budgeted so the whole bar fits a 320px
+          viewport: brand + X (36) + lang (36) + theme (34) + menu (36) + gaps.
+          Desktop-only actions appear from md, the handle text from xl.
+        */}
+        <div className="ml-auto flex shrink-0 items-center gap-1">
+          <a
+            href={AUTHOR_X_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={tr("authorX", lang)}
+            title={tr("authorX", lang)}
+            className="btn btn-sm min-w-9 gap-1 px-2 font-normal"
+            data-testid="author-x-link"
+          >
+            <span aria-hidden className="text-[1rem] leading-none">
+              𝕏
+            </span>
+            <span className="mono hidden text-[0.72rem] xl:inline">{AUTHOR_X_HANDLE}</span>
+          </a>
           <Link href="/submit" className="btn btn-sm hidden md:inline-flex">
             {tr("navSubmit", lang)}
           </Link>
@@ -53,7 +73,7 @@ export function SiteHeader({ lang, theme }: { lang: Lang; theme: "dark" | "light
           <PrefControls lang={lang} theme={theme} />
           <button
             type="button"
-            className="btn btn-ghost btn-sm lg:hidden"
+            className="btn btn-ghost btn-sm px-2 lg:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls={open ? "mobile-nav" : undefined}
@@ -66,19 +86,31 @@ export function SiteHeader({ lang, theme }: { lang: Lang; theme: "dark" | "light
 
       {open ? (
         <nav id="mobile-nav" aria-label="mobile" className="border-t border-[var(--border)] bg-[var(--panel)] lg:hidden">
-          <div className="mx-auto grid w-full max-w-[1240px] grid-cols-2 gap-1 px-4 py-3 sm:px-6">
+          <div className="mx-auto grid w-full max-w-[1240px] grid-cols-2 gap-1 px-3 py-3 sm:px-6">
             {[...NAV, { href: "/submit" as const, key: "navSubmit" as DictKey }, { href: "/admin", key: "navAdmin" as DictKey }].map(
               (item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="rounded px-2 py-2 text-sm text-[var(--text-2)] hover:bg-[var(--panel-2)] hover:text-[var(--text)]"
+                  className="rounded px-2 py-2.5 text-sm text-[var(--text-2)] hover:bg-[var(--panel-2)] hover:text-[var(--text)]"
                 >
                   {tr(item.key, lang)}
                 </Link>
               ),
             )}
+            <a
+              href={AUTHOR_X_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="col-span-2 mt-1 flex items-center gap-2 rounded border border-[var(--border)] px-2 py-2.5 text-sm text-[var(--text-2)] hover:bg-[var(--panel-2)] hover:text-[var(--text)]"
+              data-testid="author-x-link-mobile"
+            >
+              <span aria-hidden className="text-[1rem] leading-none text-[var(--brand)]">
+                𝕏
+              </span>
+              {tr("authorX", lang)}
+            </a>
           </div>
         </nav>
       ) : null}

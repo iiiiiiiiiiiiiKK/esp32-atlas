@@ -11,6 +11,9 @@
     "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", "Cascadia Mono",
     Consolas, monospace;
+  /* Extra breakpoint below `sm` so the header can shed labels on 320–390px
+     iPhones without falling back to a separate layout. */
+  --breakpoint-xs: 26rem;
 }
 
 :root {
@@ -249,6 +252,34 @@ a {
 .focus-ring:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: 2px;
+}
+
+@media (max-width: 1023px) {
+  /* Apple HIG asks for ~44pt. Every real control (button, link-button, select,
+     filter facet) is at least 36px tall on touch viewports so nothing is a
+     pixel-hunt. Static badges keep their compact size — they are labels, not
+     tap targets. */
+  .btn,
+  .btn-sm {
+    height: 2.375rem;
+  }
+  a.pill,
+  button.pill,
+  label.pill {
+    min-height: 2.25rem;
+    align-items: center;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+  }
+  /* Dense list rows: give inline row links vertical breathing room. */
+  li > a.block,
+  li > a.truncate {
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
+  }
+  .field {
+    height: 2.75rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

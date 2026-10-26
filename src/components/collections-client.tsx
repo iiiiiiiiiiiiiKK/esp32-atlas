@@ -209,8 +209,8 @@ export function CollectionsClient({ lang }: { lang: Lang }) {
         );
       })}
 
-      <p className="pill pill-warn">
-        <AlertTriangle size={9} aria-hidden />
+      <p className="flex items-start gap-1.5 rounded border border-[color-mix(in_srgb,var(--warn)_50%,transparent)] bg-[color-mix(in_srgb,var(--warn)_10%,transparent)] px-2.5 py-2 text-[0.74rem] leading-relaxed text-[var(--warn)]">
+        <AlertTriangle size={11} className="mt-0.5 shrink-0" aria-hidden />
         {lang === "zh"
           ? "这些数据只存在当前浏览器，清除站点数据会丢失。请定期导出备份。"
           : "This data lives only in this browser. Clearing site data loses it — export a backup regularly."}

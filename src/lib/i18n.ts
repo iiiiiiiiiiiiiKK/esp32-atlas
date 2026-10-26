@@ -226,6 +226,8 @@ export const dict = {
   loading: { zh: "加载中…", en: "Loading…" },
   backHome: { zh: "回到首页", en: "Back to home" },
   themeToggle: { zh: "切换主题", en: "Toggle theme" },
+  authorX: { zh: "作者 𝕏：@0xkillcoin", en: "Author on 𝕏: @0xkillcoin" },
+  authorXShort: { zh: "@0xkillcoin", en: "@0xkillcoin" },
   langSwitch: { zh: "English", en: "简体中文" },
   skipToContent: { zh: "跳到主要内容", en: "Skip to content" },
 } satisfies Dict;

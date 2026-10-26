@@ -135,7 +135,7 @@ export default async function PathDetailPage({ params }: { params: Promise<{ slu
                     {step.projects.map((fullName) => {
                       const repo = repoBySlug.get(fullName);
                       return repo ? (
-                        <Link key={fullName} href={`/projects/${repo.slug}`} className="pill pill-brand hover:underline">
+                        <Link key={fullName} href={`/projects/${repo.slug}`} className="pill pill-brand max-w-full truncate hover:underline">
                           {fullName}
                         </Link>
                       ) : (
@@ -144,7 +144,7 @@ export default async function PathDetailPage({ params }: { params: Promise<{ slu
                           href={`https://github.com/${fullName}`}
                           target="_blank"
                           rel="noopener noreferrer nofollow"
-                          className="pill"
+                          className="pill max-w-full truncate"
                         >
                           {fullName} ↗
                         </a>

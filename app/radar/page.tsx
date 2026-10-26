@@ -128,8 +128,8 @@ export default async function RadarPage() {
       <Panel title={tr("radarRising", lang)} icon={<TrendingUp size={12} aria-hidden />} hint={lang === "zh" ? "按 GitHub 创建时间排序，不代表本周新增星标" : "Ordered by repository creation date — not star growth"}>
         <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {newcomers.map((r) => (
-            <li key={r.id}>
-              <Link href={`/projects/${r.slug}`} className="flex items-center justify-between gap-2 rounded border border-[var(--border)] px-2.5 py-2 text-[0.8rem] hover:border-[var(--brand-dim)] hover:bg-[var(--panel-2)]">
+            <li key={r.id} className="min-w-0">
+              <Link href={`/projects/${r.slug}`} className="flex min-w-0 items-center justify-between gap-2 rounded border border-[var(--border)] px-2.5 py-2 text-[0.8rem] hover:border-[var(--brand-dim)] hover:bg-[var(--panel-2)]">
                 <span className="min-w-0 truncate">{r.fullName}</span>
                 <span className="mono shrink-0 text-[0.64rem] text-[var(--text-2)]">{formatDate(r.createdAt, lang)}</span>
               </Link>
@@ -185,7 +185,7 @@ function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <section className="surface p-4">
+    <section className="surface min-w-0 p-4">
       <div className="flex items-baseline justify-between gap-2">
         <h2 className="mono flex items-center gap-1.5 text-[0.68rem] uppercase tracking-[0.14em] text-[var(--text-2)]">
           {icon}

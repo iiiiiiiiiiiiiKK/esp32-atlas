@@ -27,6 +27,26 @@ test.describe("home", () => {
   });
 });
 
+test.describe("author link", () => {
+  test("the header shows the author 𝕏 link on every viewport", async ({ page, isMobile }) => {
+    await page.goto("/");
+    const link = page.getByTestId("author-x-link");
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute("href", "https://x.com/0xkillcoin");
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", /noopener/);
+    await expect(link).toBeInViewport();
+    // Mobile users also get the link inside the menu, where there is room for a label.
+    if (isMobile) {
+      await page.getByRole("button", { name: /Open menu/ }).click();
+      const menuLink = page.getByTestId("author-x-link-mobile");
+      await expect(menuLink).toBeVisible();
+      await expect(menuLink).toHaveAttribute("href", "https://x.com/0xkillcoin");
+      await expect(menuLink).toContainText("0xkillcoin");
+    }
+  });
+});
+
 test.describe("explore", () => {
   test("filters are shareable: reload keeps the same result set", async ({ page }) => {
     await page.goto("/explore?category=led&sort=stars");

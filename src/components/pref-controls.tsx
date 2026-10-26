@@ -40,7 +40,7 @@ export function PrefControls({ lang, theme }: { lang: Lang; theme: "dark" | "lig
         disabled={pending}
       >
         <Languages size={14} aria-hidden />
-        {lang === "zh" ? "EN" : "中文"}
+        <span className="hidden xs:inline">{lang === "zh" ? "EN" : "中文"}</span>
       </button>
       <button
         type="button"
