@@ -1,4 +1,4 @@
-const { chromium } = require("playwright");
+const { chromium } = await import("playwright");
 
 /**
  * Visual QA helper (not part of CI): captures the screenshots used in the README
@@ -21,7 +21,7 @@ const SHOTS = [
   ["project-mobile", "/projects/78-xiaozhi-esp32", 412, 900],
 ];
 
-(async () => {
+const capture = async () => {
   const base = process.env.SHOT_BASE ?? "http://127.0.0.1:3100";
   const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL ?? "msedge" });
   for (const [name, path, width, height] of SHOTS) {
@@ -33,4 +33,6 @@ const SHOTS = [
     await page.close();
   }
   await browser.close();
-})();
+};
+
+capture();
