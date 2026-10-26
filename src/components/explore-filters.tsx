@@ -198,7 +198,7 @@ function FacetLink({ href, active, children }: { href: string; active: boolean; 
     <li>
       <Link
         href={href}
-        aria-pressed={active}
+        aria-current={active ? "true" : undefined}
         className={`pill ${active ? "pill-brand" : ""} transition-colors hover:border-[var(--brand-dim)] hover:text-[var(--text)]`}
         scroll={false}
       >

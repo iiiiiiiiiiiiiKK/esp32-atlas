@@ -56,7 +56,7 @@ export function SiteHeader({ lang, theme }: { lang: Lang; theme: "dark" | "light
             className="btn btn-ghost btn-sm lg:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
-            aria-controls="mobile-nav"
+            aria-controls={open ? "mobile-nav" : undefined}
             aria-label={open ? "Close menu" : "Open menu"}
           >
             {open ? <X size={16} aria-hidden /> : <Menu size={16} aria-hidden />}

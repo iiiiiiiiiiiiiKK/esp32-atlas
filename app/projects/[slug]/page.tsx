@@ -156,7 +156,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             ) : null}
           </div>
 
-          <ul className="mt-3 flex flex-wrap gap-1.5">
+          <div className="mt-3 flex flex-wrap gap-1.5">
             <DifficultyPill level={repo.difficulty} lang={lang} />
             {repo.category ? <span className="pill">{categoryLabel(repo.category, lang)}</span> : null}
             {repo.frameworks.map((f) => (
@@ -174,7 +174,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 #{tag}
               </span>
             ))}
-          </ul>
+          </div>
         </div>
       </header>
 
