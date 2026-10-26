@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Activity, Star, Sparkles, GraduationCap } from "lucide-react";
 import { getLang } from "@/lib/prefs";
+import { DataStatusBanner } from "@/components/data-status-banner";
 import { tr } from "@/lib/i18n";
 import { corpusSummary } from "@/lib/queries";
 import { getStarGrowth, lastSyncedAt, countSnapshots } from "@/lib/repos";
@@ -52,6 +53,7 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-8 sm:space-y-14">
+      <DataStatusBanner lang={lang} />
       {/* ---------- Hero ---------- */}
       <section className="relative overflow-hidden rounded-md border border-[var(--border)] bg-[var(--panel)]">
         <div

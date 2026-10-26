@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getLang } from "@/lib/prefs";
+import { DataStatusBanner } from "@/components/data-status-banner";
 import { tr } from "@/lib/i18n";
 import { explore } from "@/lib/queries";
 import { RepoCard } from "@/components/repo-card";
@@ -68,6 +69,7 @@ export default async function ExplorePage({
 
   return (
     <div className="space-y-3">
+      <DataStatusBanner lang={lang} />
       {/* ---------- Page head ---------- */}
       <header className="surface p-4">
         <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { TrendingUp, Clock, Tag, AlertTriangle, Activity } from "lucide-react";
 import { getLang } from "@/lib/prefs";
+import { DataStatusBanner } from "@/components/data-status-banner";
 import { tr } from "@/lib/i18n";
 import { listRepos, countSnapshots, getSyncJobs } from "@/lib/repos";
 import { daysSince, recommendScore } from "@/lib/search";
@@ -48,6 +49,7 @@ export default async function RadarPage() {
 
   return (
     <div className="space-y-4">
+      <DataStatusBanner lang={lang} />
       <header className="surface p-5">
         <h1 className="text-xl font-semibold tracking-tight">{tr("radarTitle", lang)}</h1>
         <p className="muted mt-1.5 max-w-[82ch] text-[0.85rem] leading-relaxed">{tr("radarIntro", lang)}</p>

@@ -19,6 +19,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { getLang } from "@/lib/prefs";
+import { DataStatusBanner } from "@/components/data-status-banner";
 import { tr } from "@/lib/i18n";
 import { formatDate, formatNumber, relativeDays } from "@/lib/format";
 import { getRepoBySlug, getGuide, getSnapshots, getStarGrowth, listRepos, listTutorials, listChips } from "@/lib/repos";
@@ -83,6 +84,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="space-y-4">
+      <DataStatusBanner lang={lang} />
       <Link href="/explore" className="btn btn-ghost btn-sm -ml-1">
         <ArrowLeft size={13} aria-hidden /> {tr("navExplore", lang)}
       </Link>

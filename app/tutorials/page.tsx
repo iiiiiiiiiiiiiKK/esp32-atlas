@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ExternalLink, ShieldCheck, AlertTriangle, Languages } from "lucide-react";
 import { getLang } from "@/lib/prefs";
+import { DataStatusBanner } from "@/components/data-status-banner";
 import { tr } from "@/lib/i18n";
 import { listTutorials } from "@/lib/repos";
 import { DifficultyPill } from "@/components/repo-card";
@@ -61,6 +62,7 @@ export default async function TutorialsPage({
 
   return (
     <div className="space-y-4">
+      <DataStatusBanner lang={lang} />
       <header className="surface p-4 sm:p-5">
         <h1 className="text-lg font-semibold tracking-tight sm:text-xl">{tr("tutorialsTitle", lang)}</h1>
         <p className="muted mt-1.5 max-w-[78ch] text-[0.85rem] leading-relaxed">{tr("tutorialsIntro", lang)}</p>

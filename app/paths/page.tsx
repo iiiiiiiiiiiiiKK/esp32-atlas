@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight, Clock, Layers } from "lucide-react";
 import { getLang } from "@/lib/prefs";
+import { DataStatusBanner } from "@/components/data-status-banner";
 import { tr } from "@/lib/i18n";
 import { listPaths } from "@/lib/repos";
 import { DifficultyPill } from "@/components/repo-card";
@@ -20,6 +21,7 @@ export default async function PathsPage() {
 
   return (
     <div className="space-y-5">
+      <DataStatusBanner lang={lang} />
       <header className="surface p-5">
         <h1 className="text-xl font-semibold tracking-tight">{tr("pathsTitle", lang)}</h1>
         <p className="muted mt-1.5 max-w-[78ch] text-[0.85rem] leading-relaxed">{tr("pathsIntro", lang)}</p>

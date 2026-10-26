@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, CheckCircle2, ExternalLink } from "lucide-react";
 import { getLang } from "@/lib/prefs";
+import { DataStatusBanner } from "@/components/data-status-banner";
 import { tr } from "@/lib/i18n";
 import { getPath, listRepos } from "@/lib/repos";
 import { DifficultyPill } from "@/components/repo-card";
@@ -31,6 +32,7 @@ export default async function PathDetailPage({ params }: { params: Promise<{ slu
 
   return (
     <div className="space-y-4">
+      <DataStatusBanner lang={lang} />
       <Link href="/paths" className="btn btn-ghost btn-sm -ml-1">
         <ArrowLeft size={13} aria-hidden /> {tr("navPaths", lang)}
       </Link>
