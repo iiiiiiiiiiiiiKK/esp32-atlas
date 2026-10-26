@@ -37,7 +37,7 @@ It puts **live GitHub metrics**, hand-written **project guides**, **chip referen
 | Activity radar | Total stars, 60/90-day pushes, releases within 180 days, issue-to-star ratio — each shown separately | **Star growth appears only when historical snapshots exist**; otherwise "trend data accumulating" |
 | Learning paths | 10 paths; each stage has goals, prerequisites, resources, a rough time estimate and **observable completion criteria** | Times are explicitly rough estimates |
 | Hardware guide | ESP32 / S2 / S3 / C3 / C6 / H2 / P4 comparison table plus detail cards | Cites Espressif pages; unconfirmable fields marked unverified |
-| Tutorial hub | 46 Chinese/English tutorials and official docs with language, difficulty, source and last-verified date | Every link returned HTTP 200 when added |
+| Tutorial hub | 45 Chinese/English tutorials and official docs with language, difficulty, source and last-verified date | Every link returned HTTP 200 when added |
 | Collections | localStorage persistence, status (todo/doing/done), notes, JSON export/import | The page states plainly that data never leaves the browser |
 | Submissions | GitHub URL validation → existence check → duplicate detection → review queue | Nothing appears in a listing before approval |
 | Admin console | PBKDF2 passwords + D1 sessions + HttpOnly cookie; review submissions, trigger sync, inspect failures | Enforced server-side; hiding a link is not access control |
@@ -193,7 +193,7 @@ npm run e2e         # playwright (desktop + mobile)   → 65 passed, 1 skipped
 ```
 
 - **Unit tests** cover filter/score/sort purity, URL parameter round-trips, Zod validation (including SSRF cases), PBKDF2 hashing and constant-time comparison, date/number localisation, and content integrity (cross-table references, bilingual copy, score bounds, valid chip slugs).
-- **E2E** covers goal shortcuts, shareable filter URLs, empty-state clearing, project metrics and provenance links, "no growth without snapshots", 404, language persistence across reload, collections persistence with status/note round-trip, submissions (non-GitHub URL / missing repo / duplicate), anonymous admin API returning 401, robots excluding `/admin`, nine mobile pages without horizontal overflow, no broken cover art, and tappable primary actions.
+- **E2E** covers goal shortcuts, shareable filter URLs, empty-state clearing, project metrics and provenance links, "no growth without snapshots", 404, language persistence across reload, collections persistence with status/note round-trip, submissions (non-GitHub URL / missing repo / duplicate), anonymous admin API returning 401, robots excluding `/admin`, eight mobile pages without horizontal overflow, no broken cover art, and tappable primary actions.
 - **Security review**: see [`docs/SECURITY.md`](docs/SECURITY.md) (including unfixed items and why).
 
 ### Design system spot checks (measured, not claimed)
