@@ -86,7 +86,9 @@ export function __setDegraded(value: boolean, reason: string | null = null): voi
 }
 
 function markDegraded(err: unknown): void {
-  const reason = err instanceof Error ? err.message.slice(0, 200) : String(err).slice(0, 200);
+  const full = err instanceof Error ? err.message : String(err);
+  // Long enough to keep a documentation URL intact, short enough to store.
+  const reason = full.length > 400 ? `${full.slice(0, 399)}…` : full;
   const state = requestStatus();
   state.degraded = true;
   state.reason = reason;

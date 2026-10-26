@@ -65,6 +65,10 @@ body {
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
+  /* Long unbreakable tokens (driver messages, URLs, repo slugs) must wrap
+     instead of pushing the layout sideways. `break-word` is the safe default;
+     `.wrap-anywhere` is the stronger opt-in for pathological strings. */
+  overflow-wrap: break-word;
   /* PCB-ish trace grid, very low contrast so text stays readable. */
   background-image:
     linear-gradient(var(--grid) 1px, transparent 1px),
@@ -117,6 +121,14 @@ a {
   .mono {
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
+  }
+  /* Opt-in hard wrap for strings with no break opportunities (driver errors,
+     long URLs, base64-ish tokens). `overflow-wrap: anywhere` also shrinks the
+     min-content width, which is what actually stops the parent from growing. */
+  .wrap-anywhere {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    min-width: 0;
   }
   .truncate-2 {
     display: -webkit-box;

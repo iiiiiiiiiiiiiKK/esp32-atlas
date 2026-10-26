@@ -118,7 +118,7 @@ npm run admin:create`}
                     </span>
                   </div>
                   {job.message ? (
-                    <p className="muted mono mt-1 text-[0.68rem] leading-relaxed">{String(job.message)}</p>
+                    <p className="muted mono mt-1 text-[0.68rem] leading-relaxed wrap-anywhere">{String(job.message)}</p>
                   ) : null}
                 </li>
               ))}
@@ -143,7 +143,7 @@ npm run admin:create`}
                     <span className="pill pill-warn shrink-0">{repo.syncStatus}</span>
                   </div>
                   {repo.syncError ? (
-                    <p className="muted mono mt-0.5 text-[0.68rem]">{repo.syncError}</p>
+                    <p className="muted mono mt-0.5 text-[0.68rem] wrap-anywhere">{repo.syncError}</p>
                   ) : null}
                 </li>
               ))}
