@@ -47,8 +47,68 @@ test.describe("author link", () => {
   });
 });
 
-test.describe("explore", () => {
-  test("filters are shareable: reload keeps the same result set", async ({ page }) => {
+test.describe("repo cards are fully clickable", () => {
+  test("clicking anywhere on a card opens its detail page", async ({ page }) => {
+    await page.goto("/");
+    const card = page.locator("article").filter({ hasText: "wled/WLED" }).first();
+    await card.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(150);
+
+    const box = await card.boundingBox();
+    expect(box).not.toBeNull();
+    const viewportHeight = await page.evaluate(() => window.innerHeight);
+
+    // Six vertical bands: cover, title, metrics, summary, pills, reason row.
+    const bands = [12, 36, 56, 112, 176, 215];
+    for (const offset of bands) {
+      if ((box?.y ?? 0) + offset > viewportHeight - 20) continue;
+      await page.goto("/");
+      await card.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(120);
+      const fresh = await card.boundingBox();
+      await page.mouse.click((fresh?.x ?? 0) + 60, (fresh?.y ?? 0) + offset);
+      await expect(page, `click at y+${offset} should navigate`).toHaveURL(/\/projects\/wled-wled/, {
+        timeout: 8000,
+      });
+    }
+  });
+
+  test("the card is one keyboard-focusable link with an accessible name", async ({ page }) => {
+    await page.goto("/");
+    const link = page.getByTestId("card-wled-wled");
+    await expect(link).toHaveAttribute("href", "/projects/wled-wled");
+    await expect(link).toHaveAttribute("aria-label", "wled/WLED");
+    await link.focus();
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(/\/projects\/wled-wled/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("WLED");
+  });
+
+  test("the save button does not navigate and toggles state", async ({ page }) => {
+    await page.goto("/");
+    const save = page.getByTestId("save-repo:wled-wled");
+    await save.scrollIntoViewIfNeeded();
+    await save.click();
+    await page.waitForTimeout(400);
+    await expect(page).toHaveURL(/\/$/);
+    await expect(save).toHaveAttribute("aria-pressed", "true");
+    await save.click();
+    await page.waitForTimeout(300);
+    await expect(save).toHaveAttribute("aria-pressed", "false");
+  });
+
+  test("cards on the radar and similar-projects sections are clickable too", async ({ page }) => {
+    await page.goto("/radar");
+    const compactCard = page.locator("article").first();
+    await compactCard.scrollIntoViewIfNeeded();
+    const href = await compactCard.locator('a[aria-label]').first().getAttribute("href");
+    expect(href).toMatch(/^\/projects\//);
+    await compactCard.locator('a[aria-label]').first().click();
+    await expect(page).toHaveURL(/\/projects\//);
+  });
+});
+
+test.describe("explore", () => {  test("filters are shareable: reload keeps the same result set", async ({ page }) => {
     await page.goto("/explore?category=led&sort=stars");
     const first = await page.getByTestId("explore-grid").first().innerText();
     await page.reload();

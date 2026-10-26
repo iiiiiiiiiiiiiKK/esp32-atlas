@@ -55,13 +55,33 @@ export function RepoCard({
   compact?: boolean;
 }) {
   const summary = repo.summary ? repo.summary[lang] || repo.summary.zh : repo.description ?? "";
+  const href = `/projects/${repo.slug}`;
   return (
     <article className="surface card-hover group relative flex flex-col overflow-hidden">
-      <Link href={`/projects/${repo.slug}`} className="absolute inset-0 z-0" aria-label={repo.fullName} />
-      <div className={`relative z-0 overflow-hidden border-b border-[var(--border)] ${compact ? "h-14" : "h-16 sm:h-24"}`}>
+      {/*
+        Whole-card hit area.
+        The previous version painted this link at z-0 *under* the card body, so
+        every click landed on a <span> and nothing navigated. The fix is the
+        standard pattern: the overlay link stays underneath (z-0) and the body
+        is made click-through (`pointer-events-none`), while genuinely
+        interactive children opt back in with `pointer-events-auto`.
+        One link only: it is the single tab stop, it supports right-click →
+        "open in new tab", and it carries the accessible name.
+      */}
+      <Link
+        href={href}
+        aria-label={repo.fullName}
+        data-testid={`card-${repo.slug}`}
+        className="absolute inset-0 z-0 rounded-[5px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--cyan)]"
+      />
+      <div
+        className={`pointer-events-none relative z-0 overflow-hidden border-b border-[var(--border)] ${compact ? "h-14" : "h-16 sm:h-24"}`}
+      >
         <CoverArt repo={repo} className="h-full w-full" showLabel={!compact} />
       </div>
-      <div className={`relative z-10 flex flex-1 flex-col gap-1.5 ${compact ? "p-3" : "p-3 sm:gap-2 sm:p-4"}`}>
+      <div
+        className={`pointer-events-none relative z-10 flex flex-1 flex-col gap-1.5 ${compact ? "p-3" : "p-3 sm:gap-2 sm:p-4"}`}
+      >
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <h3 className="truncate text-[0.95rem] font-semibold tracking-tight sm:text-[0.9rem]">
@@ -83,7 +103,7 @@ export function RepoCard({
               </span>
             </div>
           </div>
-          <div className="relative z-20 shrink-0">
+          <div className="pointer-events-auto relative z-20 shrink-0">
             <SaveButton
               id={`repo:${repo.slug}`}
               kind="repo"
